@@ -1,78 +1,189 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.openEdgn.test.activities.StartActivity">
-   <children>
-      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" prefHeight="0.0" VBox.vgrow="ALWAYS">
-         <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../icons/main.png" />
-               </image>
-            </ImageView>
-            <Label text="操作系统实验">
-               <font>
-                  <Font name="Microsoft YaHei" size="24.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </Label>
-         </children>
-      </VBox>
-      <VBox alignment="CENTER" fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" prefHeight="0.0" VBox.vgrow="ALWAYS">
-         <children>
-            <GridPane alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="进程算法:">
-                     <GridPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </GridPane.margin></Label>
-                  <JFXComboBox fx:id="process" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
-                     <GridPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </GridPane.margin></JFXComboBox>
-                  <Label text="内存算法:" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </GridPane.margin></Label>
-                  <JFXComboBox fx:id="memory" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </GridPane.margin></JFXComboBox>
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <opaqueInsets>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </opaqueInsets>
-            </GridPane>
-            <JFXButton onAction="#start" text="启动模拟程序">
-               <VBox.margin>
-                  <Insets top="30.0" />
-               </VBox.margin>
-            </JFXButton>
-         </children>
-      </VBox>
-   </children>
-</VBox>
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0"
+      styleClass="body" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tech.openEdgn.test.activities.MainActivity">
+    <children>
+        <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+              prefWidth="200.0">
+            <children>
+                <Label maxWidth="1.7976931348623157E308" text="状态信息">
+                    <styleClass>
+                        <String fx:value="h1"/>
+                        <String fx:value="text-center"/>
+                    </styleClass>
+                </Label>
+                <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                      VBox.vgrow="ALWAYS">
+                    <children>
+                        <VBox>
+                            <children>
+                                <Label styleClass="h2" text="进程调度算法:"/>
+                                <Label maxWidth="1.7976931348623157E308" text="未知调度算法">
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                    </VBox.margin>
+                                    <styleClass>
+                                        <String fx:value="green"/>
+                                        <String fx:value="text-center"/>
+                                        <String fx:value="bold"/>
+                                    </styleClass>
+                                </Label>
+                                <Label styleClass="h2" text="内存调度算法:"/>
+                                <Label maxWidth="1.7976931348623157E308" text="未知调度算法">
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                    </VBox.margin>
+                                    <styleClass>
+                                        <String fx:value="green"/>
+                                        <String fx:value="text-center"/>
+                                        <String fx:value="bold"/>
+                                    </styleClass>
+                                </Label>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" top="10.0"/>
+                            </VBox.margin>
+                        </VBox>
+                        <VBox>
+                            <children>
+                                <Label styleClass="h2" text="系统信息"/>
+                                <GridPane alignment="CENTER">
+                                    <columnConstraints>
+                                        <ColumnConstraints halignment="RIGHT" minWidth="-Infinity"/>
+                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0"
+                                                           prefWidth="100.0"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <Label text="CPU使用率："/>
+                                        <Label text="进程数目：" GridPane.rowIndex="1"/>
+                                        <Label text="运行时间：" GridPane.rowIndex="2"/>
+                                        <Label text="0%" GridPane.columnIndex="1"/>
+                                        <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                        <Label text="00:00" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets top="10.0"/>
+                                    </VBox.margin>
+                                </GridPane>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" top="10.0"/>
+                            </VBox.margin>
+                        </VBox>
+                        <VBox>
+                            <children>
+                                <Label styleClass="h2" text="内存信息">
+                                    <VBox.margin>
+                                        <Insets/>
+                                    </VBox.margin>
+                                </Label>
+                                <JFXProgressBar maxHeight="5.0" minHeight="5.0" prefHeight="5.0">
+                                    <VBox.margin>
+                                        <Insets top="10.0"/>
+                                    </VBox.margin>
+                                </JFXProgressBar>
+                                <HBox>
+                                    <children>
+                                        <Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="0/200"
+                                               HBox.hgrow="ALWAYS"/>
+                                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER"
+                                               maxWidth="1.7976931348623157E308" text="0%" HBox.hgrow="ALWAYS"/>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+                                    </VBox.margin>
+                                </HBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" top="10.0"/>
+                            </VBox.margin>
+                        </VBox>
+                        <VBox>
+                            <children>
+                                <Label styleClass="h2" text="进程统计"/>
+                                <GridPane alignment="CENTER">
+                                    <columnConstraints>
+                                        <ColumnConstraints halignment="RIGHT" minWidth="-Infinity"/>
+                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0"
+                                                           prefWidth="100.0"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <Label text="挂起进程数："/>
+                                        <Label text="阻塞进程数：" GridPane.rowIndex="1"/>
+                                        <Label text="完成进程数：" GridPane.rowIndex="2"/>
+                                        <Label text="0" GridPane.columnIndex="1"/>
+                                        <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                        <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets top="10.0"/>
+                                    </VBox.margin>
+                                </GridPane>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" top="10.0"/>
+                            </VBox.margin>
+                        </VBox>
+                    </children>
+                </VBox>
+            </children>
+            <HBox.margin>
+                <Insets/>
+            </HBox.margin>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </VBox>
+        <Label maxHeight="1.7976931348623157E308" maxWidth="1.0" prefWidth="1.0" styleClass="spit"/>
+        <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+            <children>
+                <HBox alignment="CENTER_LEFT">
+                    <children>
+                        <Label text="选择查看的数据："/>
+                        <JFXComboBox maxWidth="150.0" prefWidth="150.0" value="全部进程">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="全部进程"/>
+                                    <String fx:value="未启动进程"/>
+                                    <String fx:value="就绪进程"/>
+                                    <String fx:value="挂起进程"/>
+                                    <String fx:value="阻塞进程"/>
+                                    <String fx:value="已结束进程"/>
+                                </FXCollections>
+                            </items>
+                        </JFXComboBox>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </VBox.margin>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+</HBox>
