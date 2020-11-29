@@ -1,4 +1,4 @@
-package com.github.template
+package tech.openEdgn.test
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -10,8 +10,5 @@ internal class MainTest {
         assertEquals(1 + 1, 2)
     }
 
-    @Test
-    fun testMain() {
-        main()
-    }
+
 }

@@ -3,6 +3,10 @@ group = "com.github.openEDGN"
 version = "1.0"
 // 你可以指定此为项目 版本号
 
+plugins{
+    id("org.openjfx.javafxplugin") version "0.0.9" apply  false
+}
+
 buildscript {
     repositories{
         mavenLocal()
