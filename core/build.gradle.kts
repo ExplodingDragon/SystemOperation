@@ -24,6 +24,9 @@ dependencies {
     implementation("com.github.openEDGN.FXUIManager:manager:1.0")
     implementation("com.github.OpenEdgn.Logger4K:logger-console:1.0.4")
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
+    implementation("com.jfoenix:jfoenix:9.0.10")
+    implementation("com.google.code.gson:gson:2.8.5")
+    implementation("org.json:json:20201115")
     testImplementation("org.junit.platform:junit-platform-launcher:1.6.2")
 }
 

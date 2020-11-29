@@ -8,5 +8,6 @@ import tech.openEdgn.test.activities.StartActivity
 class Main
 
 fun main() {
-    UIApplication.boot(FXBoot.Builder(StartActivity::class).build())
+    UIApplication.boot(FXBoot.Builder(StartActivity::class)
+            .addStyleUrl(Main::class.java.getResource("/css/global.css")).build())
 }
