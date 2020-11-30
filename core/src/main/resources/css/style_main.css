@@ -82,3 +82,6 @@ Label {
 .split-pane > .split-pane-divider:hover {
     -fx-background-color: #E0E0E0;
 }
+TableView .table-column {
+    -fx-alignment: center;
+}

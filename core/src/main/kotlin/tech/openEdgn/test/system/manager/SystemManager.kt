@@ -70,6 +70,10 @@ class SystemManager(processImpl: Class<out BaseProcessAlgorithm<out PCB>>, memor
         clockCycleTime+=1
     }
 
+    override fun addRandomProcess() {
+        processes.add(processAlgorithm.addRandomProcess())
+    }
+
     init {
         timer.schedule(object : TimerTask() {
             override fun run() {

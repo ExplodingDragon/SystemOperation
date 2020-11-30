@@ -9,7 +9,7 @@ interface PCB {
     /**
      *  process name
      */
-    val name: String
+    var name: String
 
     /**
      * process status

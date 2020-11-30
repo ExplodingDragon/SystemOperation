@@ -1,6 +1,7 @@
 package tech.openEdgn.test.system.process
 
 import tech.openEdgn.test.system.PCB
+import tech.openEdgn.test.system.ProcessStatus
 import tech.openEdgn.test.system.manager.ISystemManager
 import tech.openEdgn.test.system.memory.IMemoryAlgorithm
 import kotlin.reflect.KClass
@@ -21,13 +22,37 @@ abstract class BaseProcessAlgorithm<T : PCB>(
     /**
      * 全部的进程
      */
-    protected val allProcess
-        get() = manager.allProcess
+    @Suppress("UNCHECKED_CAST")
+    protected val allProcess: List<T>
+        get() = manager.allProcess as List<T>
+
+    /**
+     * 未启动的进程
+     */
+    protected val noCreateProcess: List<T>
+        get() = allProcess.filter { it.status == ProcessStatus.CREATE }
+
+    /**
+     * 有 PID 的进程
+     */
+    protected val startedProcess: List<T>
+        get() = allProcess.filter { it.pid > 0 }
 
     /**
      * 运行一个时钟周期
      */
     abstract fun runClockCycle()
+
+    /**
+     * 创建一个随机进程并返回
+     * @return PCB
+     */
+    abstract fun addRandomProcess(): T
+    fun finishProcess(process: T){
+        process.status = ProcessStatus.FINISH
+        process.pid = 0
+        memoryAlgorithm.finishProcess(process)
+    }
 
     /**
      * cpu 占用率

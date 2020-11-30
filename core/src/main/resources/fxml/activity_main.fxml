@@ -232,12 +232,12 @@
                         <Label fx:id="selectProcessNameLabel" text="name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
-                  <JFXButton maxWidth="1.7976931348623157E308" onAction="#selectProcessStopAction" text="挂起">
+                  <JFXButton fx:id="selectProcessStopButton" maxWidth="1.7976931348623157E308" onAction="#selectProcessStopAction" text="挂起">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
                   </JFXButton>
-                  <JFXButton maxWidth="1.7976931348623157E308" onAction="#selectProcessWaitAction" text="阻塞">
+                  <JFXButton fx:id="selectProcessWaitButton" maxWidth="1.7976931348623157E308" onAction="#selectProcessWaitAction" text="阻塞">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>

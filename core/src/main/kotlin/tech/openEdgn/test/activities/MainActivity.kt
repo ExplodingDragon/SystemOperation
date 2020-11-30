@@ -1,6 +1,7 @@
 package tech.openEdgn.test.activities
 
 import com.github.open_edgn.fx.manager.activity.FXMLActivity
+import com.jfoenix.controls.JFXButton
 import com.jfoenix.controls.JFXComboBox
 import com.jfoenix.controls.JFXProgressBar
 import javafx.beans.property.SimpleObjectProperty
@@ -44,6 +45,7 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
 
     @FXML
     private lateinit var memorySizeProgressBar: JFXProgressBar
+
     @FXML
     private lateinit var cpuSizeProgressBar: JFXProgressBar
 
@@ -77,8 +79,19 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
     @FXML
     private lateinit var selectProcessNameLabel: Label
 
+    @FXML
+    private lateinit var selectProcessStopButton: JFXButton;
+
+    @FXML
+    private lateinit var selectProcessWaitButton: JFXButton;
+
+    @Volatile
+    private var chooseStatus = ProcessStatus.ALL
+
+
     private lateinit var timer: Timer
 
+    private val processList = FXCollections.observableArrayList<PCB>()
 
     private val manager: ISystemManager by lazy {
         SystemManager(
@@ -88,6 +101,7 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
     }
 
     override fun onCreate() {
+        table.items = processList
         memoryAlgorithmLabel.text =
                 intent.getExtra(IMemoryAlgorithm::class.qualifiedName!!, "UNKNOWN Algorithm")
         processAlgorithmLabel.text =
@@ -119,7 +133,7 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
             override fun run() {
                 runUiOnThread { this@MainActivity.run() }
             }
-        }, 0L, 1000L)
+        }, 0L, 300L)
     }
 
     override fun onHide() {
@@ -128,8 +142,8 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
 
     override fun run() {
         runTimeLabel.text = String.format("%02d:%02d", manager.runTime / 60, manager.runTime % 60)
-        cpuUsageLabel.text = String.format("%.2f%%", manager.cpuUsage* 100)
-        cpuSizeProgressBar.progress = manager.cpuUsage.toDouble()
+        cpuUsageLabel.text = String.format("%.2f%%", manager.cpuUsage * 100)
+        cpuSizeProgressBar.progress = manager.cpuUsage
         processSizeLabel.text = manager.processSize.toString()
         val memoryUsage = manager.memoryUsageSize
         val memorySize = manager.memorySize
@@ -140,16 +154,72 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
         hangProcessLabel.text = manager.hangProcessSize.toString()
         waitProcessLabel.text = manager.waitProcessSize.toString()
         finishProcessLabel.text = manager.finishProcessSize.toString()
+        chooseAlgorithm()
+        chooseDetails()
+    }
+
+    @Volatile
+    private lateinit var selectItem: PCB
+
+    private fun chooseDetails() {
+        processItemVBox.isDisable = true
+        table.selectionModel?.selectedItem?.run {
+            if (pid == 0L) {
+                return
+            }
+            selectItem = this
+            processItemVBox.isDisable = false
+            selectProcessIdLabel.text = pid.toString()
+            selectProcessNameLabel.text = name
+            when (status) {
+                ProcessStatus.RUN,
+                ProcessStatus.RUN_READY,
+                ProcessStatus.RUN_WAIT -> {
+                    selectProcessStopButton.isDisable = false
+                    selectProcessStopButton.text = "挂起"
+                }
+                ProcessStatus.STOP_WAIT,
+                ProcessStatus.STOP_READY,
+                -> {
+                    selectProcessStopButton.isDisable = false
+                    selectProcessStopButton.text = "取消挂起"
+                }
+                else -> {
+                    selectProcessStopButton.isDisable = true
+                    selectProcessStopButton.text = "此状态无法挂起"
+                }
+            }
+            when (status) {
+                ProcessStatus.RUN -> {
+                    selectProcessWaitButton.isDisable = false
+                    selectProcessWaitButton.text = "阻塞"
+                }
+                ProcessStatus.RUN_WAIT,
+                ProcessStatus.STOP_WAIT -> {
+                    selectProcessWaitButton.isDisable = false
+                    selectProcessWaitButton.text = "取消阻塞"
+                }
+                else -> {
+                    selectProcessWaitButton.isDisable = true
+                    selectProcessWaitButton.text = "此状态无法阻塞"
+                }
+            }
+
+        }
     }
 
 
     @FXML
     fun addRandomAction() {
-    }
+        manager.addRandomProcess()
+        logger.info("切换进程列表为: {},当前列个数为 {}.",
+                spitProcessComboBox.selectionModel.selectedItem.type, table.items.size)
 
+    }
 
     @FXML
     fun selectProcessStopAction() {
+        selectItem.name = "REPLACE"
     }
 
     @FXML
@@ -158,6 +228,7 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
 
     @FXML
     fun spitProcessAction() {
+        chooseStatus = spitProcessComboBox.selectionModel.selectedItem
         chooseAlgorithm()
     }
 
@@ -165,15 +236,19 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
      * 切换进程分割
      */
     private fun chooseAlgorithm() {
-        spitProcessComboBox.selectionModel.selectedItem?.run {
-            table.items.clear()
-            if (this == ProcessStatus.ALL) {
-                table.items.addAll(manager.allProcess)
-            } else {
-                table.items.addAll(manager.allProcess.filter { it.status == this })
+        manager.allProcess.forEach {
+            if (!processList.contains(it)) {
+                processList.add(it)
             }
-            logger.info("切换进程列表为: {},当前列个数为 {}.", this.type, table.items.size)
         }
+        processList.removeIf {
+            if (chooseStatus == ProcessStatus.ALL) {
+                false
+            } else {
+                it.status != chooseStatus
+            }
+        }
+        table.refresh()
     }
 
     /**
@@ -196,7 +271,7 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
                     if (value is ProcessStatus) {
                         SimpleObjectProperty(value.type)
                     } else {
-                        SimpleObjectProperty(String.format(column.format, value))
+                        SimpleObjectProperty(column.format.formatImpl.format(value))
                     }
                 }
                 columns.add(tableColumn)

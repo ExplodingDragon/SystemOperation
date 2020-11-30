@@ -5,9 +5,15 @@ import kotlin.reflect.KClass
 
 interface ISystemManager {
     /**
+     * 添加随机线程
+     */
+    fun addRandomProcess()
+
+    /**
      * 阻塞进程数目
      */
     val waitProcessSize: Int
+
     /**
      * 挂起进程数目
      */
