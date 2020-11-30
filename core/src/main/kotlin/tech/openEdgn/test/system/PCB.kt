@@ -31,4 +31,13 @@ interface PCB {
      */
     val needMemory:Int
 
+    /**
+     * 内存首地址
+     */
+    var memoryOffset: Long
+
+    /**
+     * 已用cpu时间
+     */
+    var usedCpuTime: Long
 }

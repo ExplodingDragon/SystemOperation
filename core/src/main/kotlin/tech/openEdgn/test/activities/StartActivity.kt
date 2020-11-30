@@ -23,7 +23,7 @@ class StartActivity : FXMLActivity<VBox>() {
     private lateinit var memory: JFXComboBox<MemoryAlgorithmInfo>
 
     @FXML
-    fun start(actionEvent: ActionEvent) {
+    fun start() {
         startActivity(Intent(this, MainActivity::class)
                 .putExtra(IMemoryAlgorithm::class.simpleName!!, memory.selectionModel.selectedItem.implClass.java)
                 .putExtra(BaseProcessAlgorithm::class.simpleName!!, process.selectionModel.selectedItem.implClass.java)

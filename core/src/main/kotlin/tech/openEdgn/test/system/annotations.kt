@@ -1,5 +1,6 @@
 package tech.openEdgn.test.system
 
+import java.lang.annotation.Inherited
 import java.lang.reflect.Type
 
 
@@ -9,9 +10,8 @@ import java.lang.reflect.Type
  * @property always Boolean 此字段是否必须
  * @constructor
  */
-
-@Retention(AnnotationRetention.RUNTIME)
 @kotlin.annotation.Target(AnnotationTarget.FIELD)
+@Retention(AnnotationRetention.RUNTIME)
 annotation class Column(
         val name: String,
         val always: Boolean = true,
