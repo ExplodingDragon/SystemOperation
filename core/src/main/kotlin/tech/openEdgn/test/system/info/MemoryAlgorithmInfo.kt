@@ -1,5 +1,6 @@
-package tech.openEdgn.test.system.memory
+package tech.openEdgn.test.system.info
 
+import tech.openEdgn.test.system.memory.IMemoryAlgorithm
 import java.io.Serializable
 import kotlin.reflect.KClass
 

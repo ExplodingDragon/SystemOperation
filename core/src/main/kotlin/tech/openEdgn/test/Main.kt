@@ -9,5 +9,6 @@ class Main
 
 fun main() {
     UIApplication.boot(FXBoot.Builder(StartActivity::class)
-            .addStyleUrl(Main::class.java.getResource("/css/global.css")).build())
+            .addStyleUrl(Main::class.java.getResource("/css/global.css"))
+            .setIcon(Main::class.java.getResource("/icons/main.png")).build())
 }

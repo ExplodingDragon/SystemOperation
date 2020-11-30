@@ -5,4 +5,13 @@ package tech.openEdgn.test.system.memory
  */
 interface IMemoryAlgorithm {
 
+    /**
+     * 内存已使用大小
+     */
+    val memoryUsageSize: Int
+
+    /**
+     * 内存大小
+     */
+    val memorySize: Int
 }

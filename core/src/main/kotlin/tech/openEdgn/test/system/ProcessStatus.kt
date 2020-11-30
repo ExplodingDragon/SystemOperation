@@ -7,6 +7,11 @@ package tech.openEdgn.test.system
  */
 enum class ProcessStatus(val type: String) {
     /**
+     *全部线程
+     */
+    ALL("全部"),
+
+    /**
      * 进程建立，准备启动，但未启动
      */
     CREATE("未启动"),

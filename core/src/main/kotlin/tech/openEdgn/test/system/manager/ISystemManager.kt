@@ -1,30 +1,56 @@
 package tech.openEdgn.test.system.manager
 
-import tech.openEdgn.test.system.memory.IMemoryAlgorithm
-import tech.openEdgn.test.system.process.IProcessAlgorithm
-import java.io.Closeable
+import tech.openEdgn.test.system.PCB
+import kotlin.reflect.KClass
 
-/***
- *
- * 进程管理器
- *
- */
-interface ISystemManager :Closeable{
+interface ISystemManager {
     /**
-     * 进程调度算法
+     * 阻塞进程数目
      */
-    val processAlgorithm: IProcessAlgorithm
+    val waitProcessSize: Int
+    /**
+     * 挂起进程数目
+     */
+    val hangProcessSize: Int
 
     /**
-     * 已使用的内存大小
+     * 内存大小
      */
-    val usedMemorySize: Long
+    val memorySize: Int
 
     /**
-     * 全部内存大小
+     *  已使用内存
      */
-    val allMemorySize: Long
+    val memoryUsageSize: Int
 
+    /**
+     * 已结束进程数
+     */
+    val finishProcessSize: Int
 
+    /**
+     * 进程总个数
+     */
+    val processSize: Int
 
+    /**
+     * cpu 占用
+     *
+     */
+    val cpuUsage: Double
+
+    /**
+     * 运行时间
+     */
+    val runTime: Long
+
+    /**
+     * 全部进程信息
+     */
+    val allProcess: List<PCB>
+
+    /**
+     * 进程配置信息
+     */
+    val displayClass: KClass<*>
 }
