@@ -22,8 +22,9 @@ class HRRNPCB(
         override val startTime: Long,
         @Column("需要时间", true, format = FormatType.MINUTES_SECONDS)
         override val needTime: Long,
-        @Column("响应比", true, format = FormatType.STRING)
-        val responseRatio: Double,
+        @Volatile
+        @Column("响应比", true, format = FormatType.DOUBLE)
+        var responseRatio: Double = 0.0,
         @Column("已用CPU时间", false, format = FormatType.MINUTES_SECONDS)
         @Volatile
         override var usedCpuTime: Long = 0,

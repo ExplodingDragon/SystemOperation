@@ -1,8 +1,5 @@
 package tech.openEdgn.test.system
 
-import java.lang.annotation.Inherited
-import java.lang.reflect.Type
-
 
 /**
  *
@@ -21,12 +18,19 @@ annotation class Column(
 enum class FormatType(val formatImpl: DataFormat<out Any>) {
     STRING(StringDataFormat()),
     MINUTES_SECONDS(MinutesAndSecondsDataFormat()),
-    PROCESS_STATUS(ProcessStatusDataFormat()),;
-
+    PROCESS_STATUS(ProcessStatusDataFormat()),
+    DOUBLE(ProcessStatusDoubleFormat())
 
 }
 
-class ProcessStatusDataFormat: DataFormat<ProcessStatus>() {
+class ProcessStatusDoubleFormat : DataFormat<Double>() {
+    override fun format(data: Double): String {
+        return String.format("%.2f", data)
+    }
+
+}
+
+class ProcessStatusDataFormat : DataFormat<ProcessStatus>() {
     override fun format(data: ProcessStatus): String {
         return data.type
     }
@@ -49,10 +53,11 @@ class MinutesAndSecondsDataFormat : DataFormat<Any>() {
 }
 
 @Suppress("UNCHECKED_CAST")
-abstract class DataFormat<T:Any> {
-    fun formatStr(data: Any):String{
+abstract class DataFormat<T : Any> {
+    fun formatStr(data: Any): String {
         return format(data as T)
     }
+
     abstract fun format(data: T): String
 }
 

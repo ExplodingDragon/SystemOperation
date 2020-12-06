@@ -25,7 +25,7 @@ abstract class CustomAlgorithm<T : PCB>(memoryAlgorithm: IMemoryAlgorithm, manag
      */
     protected fun addReadyProcess() {
         noCreateProcess.forEach {
-            if (it.startTime >= manager.runTime) {
+            if (it.startTime <= manager.runTime) {
                 if (tryBootProcess(it)) {
                     readyProcess.addLast(it)
                 }
@@ -54,5 +54,10 @@ abstract class CustomAlgorithm<T : PCB>(memoryAlgorithm: IMemoryAlgorithm, manag
         } else {
             readyProcess.remove(process)
         }
+    }
+
+    override fun close() {
+        super.close()
+        readyProcess.clear()
     }
 }

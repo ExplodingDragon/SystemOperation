@@ -14,6 +14,7 @@ import tech.openEdgn.test.system.memory.impl.MaxMemoryAlgorithm
 import tech.openEdgn.test.system.process.impl.FCFSAlgorithm
 import tech.openEdgn.test.system.process.impl.HRRNAlgorithm
 import tech.openEdgn.test.system.process.impl.RRAlgorithm
+import tech.openEdgn.test.system.process.impl.SJFAlgorithm
 
 
 class StartActivity : FXMLActivity<VBox>() {
@@ -39,7 +40,7 @@ class StartActivity : FXMLActivity<VBox>() {
                 ProcessAlgorithmInfo("先来先服务调度算法", FCFSAlgorithm::class),
                 ProcessAlgorithmInfo("时间片轮转调度算法", RRAlgorithm::class),
                 ProcessAlgorithmInfo("高响应比优先调度算法", HRRNAlgorithm::class),
-                ProcessAlgorithmInfo("优先级调度算法", BaseProcessAlgorithm::class),
+                ProcessAlgorithmInfo("优先级调度算法", SJFAlgorithm::class),
                 ProcessAlgorithmInfo("多级反馈队列调度算法", BaseProcessAlgorithm::class)
         )
         memory.items.addAll(

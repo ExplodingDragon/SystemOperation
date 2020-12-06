@@ -252,7 +252,7 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
             }
         }
         processList.sorted { o1, o2 ->
-            (o1.pid - o2.pid).toInt()
+            (o2.pid - o1.pid).toInt()
         }
         table.refresh()
     }
@@ -276,7 +276,7 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
                     val value = call.value
                     SimpleObjectProperty(column.format.formatImpl.formatStr(value))
                 }
-                tableColumn.isSortable = false
+//                tableColumn.isSortable = false
                 columns.add(tableColumn)
             }
         }

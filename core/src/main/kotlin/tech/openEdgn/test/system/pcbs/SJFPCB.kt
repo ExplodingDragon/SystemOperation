@@ -5,7 +5,7 @@ import tech.openEdgn.test.system.FormatType
 import tech.openEdgn.test.system.PCB
 import tech.openEdgn.test.system.ProcessStatus
 
-class SimplePCB(
+class SJFPCB(
         @Column("PID", false)
         override var pid: Long = 0,
         @Column("名称", true)
@@ -17,6 +17,9 @@ class SimplePCB(
         override val startTime: Long,
         @Column("需要时间", true, format = FormatType.MINUTES_SECONDS)
         override val needTime: Long,
+        @Column("优先级", false)
+        @Volatile
+        var priority: Int = 0,
         @Column("已用CPU时间", false, format = FormatType.MINUTES_SECONDS)
         @Volatile
         override var usedCpuTime: Long = 0,

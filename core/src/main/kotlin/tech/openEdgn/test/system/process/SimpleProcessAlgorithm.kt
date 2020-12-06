@@ -20,7 +20,7 @@ abstract class SimpleProcessAlgorithm<T : PCB>(
 
     override val allProcesses: LinkedList<T> = LinkedList()
 
-    override fun close() {
+    open override fun close() {
         synchronized(allProcesses) {
             allProcesses.clear()
         }
