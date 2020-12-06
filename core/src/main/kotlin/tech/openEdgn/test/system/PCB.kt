@@ -34,7 +34,7 @@ interface PCB {
     /**
      * 内存首地址
      */
-    var memoryOffset: Long
+    var memoryOffset: Int
 
     /**
      * 已用cpu时间

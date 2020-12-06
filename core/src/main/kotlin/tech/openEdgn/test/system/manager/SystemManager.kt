@@ -7,6 +7,7 @@ import tech.openEdgn.test.system.process.BaseProcessAlgorithm
 import java.io.Closeable
 import java.lang.RuntimeException
 import java.util.*
+import java.util.concurrent.Executors
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.primaryConstructor
@@ -17,6 +18,7 @@ import kotlin.reflect.full.primaryConstructor
  *
  */
 class SystemManager(processImpl: Class<out BaseProcessAlgorithm<out PCB>>, memoryImpl: Class<out IMemoryAlgorithm>) : ISystemManager, Runnable, Closeable {
+    private val threadPool = Executors.newCachedThreadPool()
     private val memoryAlgorithm: IMemoryAlgorithm = memoryImpl.kotlin.createInstance()
     private val processAlgorithm: BaseProcessAlgorithm<out PCB> by lazy {
         processImpl.kotlin.primaryConstructor
@@ -59,19 +61,22 @@ class SystemManager(processImpl: Class<out BaseProcessAlgorithm<out PCB>>, memor
         get() = clockCycleTime
 
     override val allProcess: List<PCB>
-        get() = processes
-    private val processes = LinkedList<PCB>()
+        get() = processAlgorithm.allProcesses
+
     override val displayClass: KClass<*>
         get() = processAlgorithm.displayClass
     private val timer = Timer()
 
     override fun run() {
         processAlgorithm.runClockCycle()
-        clockCycleTime+=1
+
+        clockCycleTime += 1
     }
 
     override fun addRandomProcess() {
-        processes.add(processAlgorithm.addRandomProcess())
+        threadPool.submit {
+            processAlgorithm.addRandomProcess()
+        }
     }
 
     init {
@@ -82,8 +87,15 @@ class SystemManager(processImpl: Class<out BaseProcessAlgorithm<out PCB>>, memor
         }, 0L, 1000L)
     }
 
+    override fun sendAction(pid: Long, action: ProcessAction) {
+        threadPool.submit {
+            processAlgorithm.sendAction(pid, action)
+        }
+    }
+
     override fun close() {
+        threadPool.shutdownNow()
         timer.cancel()
-        processes.clear()
+        processAlgorithm.close()
     }
 }

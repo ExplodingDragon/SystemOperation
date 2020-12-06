@@ -1,9 +1,11 @@
 package tech.openEdgn.test.system.process
 
+import com.github.openEdgn.logger4k.getLogger
 import tech.openEdgn.test.system.PCB
-import tech.openEdgn.test.system.ProcessStatus
 import tech.openEdgn.test.system.manager.ISystemManager
+import tech.openEdgn.test.system.manager.ProcessAction
 import tech.openEdgn.test.system.memory.IMemoryAlgorithm
+import java.io.Closeable
 import kotlin.reflect.KClass
 
 /**
@@ -12,31 +14,34 @@ import kotlin.reflect.KClass
 abstract class BaseProcessAlgorithm<T : PCB>(
         protected val memoryAlgorithm: IMemoryAlgorithm,
         protected val manager: ISystemManager
-) {
+) : Closeable {
 
-    @Volatile
-    var pid: Long = 0
-    val createPid: Long
-        get() = ++pid
+
+
+
+    /**
+     * 正在运行的进程
+     */
+    protected abstract val runProcess: List<T>
 
     /**
      * 全部的进程
      */
-    @Suppress("UNCHECKED_CAST")
-    protected val allProcess: List<T>
-        get() = manager.allProcess as List<T>
+    abstract val allProcesses: MutableList<T>
+
+    private val logger = getLogger()
+
+
 
     /**
-     * 未启动的进程
+     * 已启动的进程
      */
-    protected val noCreateProcess: List<T>
-        get() = allProcess.filter { it.status == ProcessStatus.CREATE }
+    protected abstract val startedProcess: List<T>
 
     /**
-     * 有 PID 的进程
+     * 未启动进程
      */
-    protected val startedProcess: List<T>
-        get() = allProcess.filter { it.pid > 0 }
+    protected abstract  val noCreateProcess: List<T>
 
     /**
      * 运行一个时钟周期
@@ -44,15 +49,16 @@ abstract class BaseProcessAlgorithm<T : PCB>(
     abstract fun runClockCycle()
 
     /**
-     * 创建一个随机进程并返回
+     * 添加一个随机进程
      * @return PCB
      */
-    abstract fun addRandomProcess(): T
-    fun finishProcess(process: T){
-        process.status = ProcessStatus.FINISH
-        process.pid = 0
-        memoryAlgorithm.finishProcess(process)
-    }
+    abstract fun addRandomProcess()
+
+
+    abstract  fun sendAction(pid: Long, action: ProcessAction)
+
+
+
 
     /**
      * cpu 占用率
@@ -63,4 +69,6 @@ abstract class BaseProcessAlgorithm<T : PCB>(
      * 展示在 UI 上列表属性
      */
     abstract val displayClass: KClass<T>
+
+
 }

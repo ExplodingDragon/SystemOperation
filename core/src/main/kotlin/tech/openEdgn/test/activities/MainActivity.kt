@@ -16,6 +16,7 @@ import tech.openEdgn.test.system.Column
 import tech.openEdgn.test.system.PCB
 import tech.openEdgn.test.system.ProcessStatus
 import tech.openEdgn.test.system.manager.ISystemManager
+import tech.openEdgn.test.system.manager.ProcessAction
 import tech.openEdgn.test.system.manager.SystemManager
 import tech.openEdgn.test.system.memory.IMemoryAlgorithm
 import tech.openEdgn.test.system.process.BaseProcessAlgorithm
@@ -80,10 +81,10 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
     private lateinit var selectProcessNameLabel: Label
 
     @FXML
-    private lateinit var selectProcessStopButton: JFXButton;
+    private lateinit var selectProcessStopButton: JFXButton
 
     @FXML
-    private lateinit var selectProcessWaitButton: JFXButton;
+    private lateinit var selectProcessWaitButton: JFXButton
 
     @Volatile
     private var chooseStatus = ProcessStatus.ALL
@@ -173,6 +174,7 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
             selectProcessNameLabel.text = name
             when (status) {
                 ProcessStatus.RUN,
+                ProcessStatus.CREATE,
                 ProcessStatus.RUN_READY,
                 ProcessStatus.RUN_WAIT -> {
                     selectProcessStopButton.isDisable = false
@@ -219,11 +221,12 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
 
     @FXML
     fun selectProcessStopAction() {
-        selectItem.name = "REPLACE"
+        manager.sendAction(selectItem.pid,ProcessAction.STOP)
     }
 
     @FXML
     fun selectProcessWaitAction() {
+        manager.sendAction(selectItem.pid,ProcessAction.WAIT)
     }
 
     @FXML
@@ -248,6 +251,9 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
                 it.status != chooseStatus
             }
         }
+        processList.sorted { o1, o2 ->
+            (o1.pid - o2.pid).toInt()
+        }
         table.refresh()
     }
 
@@ -268,12 +274,9 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
                         ObservableValue<Any>> {
                     val call = PropertyValueFactory<PCB, Any>(declaredField.name).call(it)
                     val value = call.value
-                    if (value is ProcessStatus) {
-                        SimpleObjectProperty(value.type)
-                    } else {
-                        SimpleObjectProperty(column.format.formatImpl.format(value))
-                    }
+                    SimpleObjectProperty(column.format.formatImpl.formatStr(value))
                 }
+                tableColumn.isSortable = false
                 columns.add(tableColumn)
             }
         }

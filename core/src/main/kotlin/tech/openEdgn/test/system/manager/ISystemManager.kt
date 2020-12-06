@@ -10,6 +10,13 @@ interface ISystemManager {
     fun addRandomProcess()
 
     /**
+     * 发送进程控制指令
+     * @param pid Long 进程 PID
+     * @param action ProcessAction 指令动作
+     */
+    fun sendAction(pid:Long,action: ProcessAction)
+
+    /**
      * 阻塞进程数目
      */
     val waitProcessSize: Int

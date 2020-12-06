@@ -82,6 +82,15 @@ Label {
 .split-pane > .split-pane-divider:hover {
     -fx-background-color: #E0E0E0;
 }
+
 TableView .table-column {
     -fx-alignment: center;
+}
+.table-view .scroll-bar * {
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
 }

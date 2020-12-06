@@ -10,7 +10,14 @@ interface IMemoryAlgorithm {
      * 程序结束，
      *
      */
-    fun  finishProcess(process: PCB)
+    fun finishProcess(process: PCB)
+
+    /**
+     * 尝试为进程分配内存
+     * @param process PCB
+     * @return Boolean
+     */
+    fun tryBootProcess(process: PCB): Boolean
 
     /**
      * 内存已使用大小
