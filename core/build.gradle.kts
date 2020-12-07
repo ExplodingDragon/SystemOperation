@@ -33,10 +33,6 @@ dependencies {
     implementation("com.github.OpenEdgn:FXUIManager:1614cec512"){
         exclude("com.github.OpenEdgn.Logger4K","core")
     }
-
-//    implementation("com.github.openEDGN.FXUIManager:manager:1.0"){
-//        exclude("com.github.OpenEdgn.Logger4K","core")
-//    }
     implementation("com.github.OpenEdgn.Logger4K:core:0cda6f05f7")
     implementation("com.github.OpenEdgn.Logger4K:logger-console:0cda6f05f7")
     implementation("com.jfoenix:jfoenix:9.0.10")
