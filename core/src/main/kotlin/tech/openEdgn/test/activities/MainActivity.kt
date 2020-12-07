@@ -3,7 +3,6 @@ package tech.openEdgn.test.activities
 import com.github.open_edgn.fx.manager.activity.FXMLActivity
 import com.jfoenix.controls.JFXButton
 import com.jfoenix.controls.JFXComboBox
-import com.jfoenix.controls.JFXProgressBar
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.value.ObservableValue
 import javafx.collections.FXCollections
@@ -221,12 +220,12 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
 
     @FXML
     fun selectProcessStopAction() {
-        manager.sendAction(selectItem.pid,ProcessAction.STOP)
+        manager.sendAction(selectItem.pid, ProcessAction.STOP)
     }
 
     @FXML
     fun selectProcessWaitAction() {
-        manager.sendAction(selectItem.pid,ProcessAction.WAIT)
+        manager.sendAction(selectItem.pid, ProcessAction.WAIT)
     }
 
     @FXML
@@ -251,8 +250,32 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
                 it.status != chooseStatus
             }
         }
-        processList.sorted { o1, o2 ->
-            (o2.pid - o1.pid).toInt()
+
+        processList.sortWith { o1, o2 ->
+            if (o1.status == ProcessStatus.RUN) {
+                return@sortWith -1
+            }
+            if (o2.status == ProcessStatus.RUN) {
+                return@sortWith 1
+            }
+            if (o1.status == ProcessStatus.FINISH && o2.status != ProcessStatus.FINISH) {
+                return@sortWith 1
+            }
+            if (o2.status == ProcessStatus.FINISH && o1.status != ProcessStatus.FINISH) {
+                return@sortWith -1
+            }
+            if (o1.status == ProcessStatus.CREATE && o1.status != ProcessStatus.CREATE) {
+                1
+            } else if (o2.status == ProcessStatus.CREATE && o1.status != ProcessStatus.CREATE) {
+                -1
+            } else {
+                val toInt = (o2.pid - o1.pid).toInt()
+                if (toInt != 0) {
+                    toInt
+                } else {
+                    (o2.startTime - o1.startTime).toInt()
+                }
+            }
         }
         table.refresh()
     }
@@ -276,6 +299,7 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
                     val value = call.value
                     SimpleObjectProperty(column.format.formatImpl.formatStr(value))
                 }
+                tableColumn.isSortable = false
                 columns.add(tableColumn)
             }
         }
