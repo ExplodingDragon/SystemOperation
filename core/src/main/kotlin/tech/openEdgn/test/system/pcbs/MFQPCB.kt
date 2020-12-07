@@ -16,7 +16,7 @@ class MFQPCB(
         @Column("队列位置", false)
         @Volatile
         var lineId: Long = 0,
-        @Column("进程状态", true, format = FormatType.PROCESS_STATUS)
+        @Column("进程状态", true, format = FormatType.PROCESS_STATUS,sort = true)
         @Volatile
         override var status: ProcessStatus = ProcessStatus.CREATE,
         @Column("启动时间", true, format = FormatType.MINUTES_SECONDS)

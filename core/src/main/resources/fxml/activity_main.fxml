@@ -38,8 +38,8 @@
                                         <String fx:value="bold" />
                                     </styleClass>
                                 </Label>
-                                <Label styleClass="h2" text="内存调度算法:" />
-                                <Label fx:id="memoryAlgorithmLabel" maxWidth="1.7976931348623157E308" text="未知调度算法">
+                                <Label opacity="0.0" styleClass="h2" text="内存调度算法:" />
+                                <Label fx:id="memoryAlgorithmLabel" maxWidth="1.7976931348623157E308" opacity="0.0" text="未知调度算法">
                                     <VBox.margin>
                                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                     </VBox.margin>
@@ -102,7 +102,7 @@
                                 <Insets bottom="10.0" top="10.0" />
                             </VBox.margin>
                         </VBox>
-                        <VBox>
+                        <VBox opacity="0.0">
                             <children>
                                 <Label styleClass="h2" text="内存信息">
                                     <VBox.margin>

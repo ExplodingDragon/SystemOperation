@@ -15,7 +15,7 @@ class HRRNPCB(
         override var pid: Long = 0,
         @Column("名称", true)
         override var name: String,
-        @Column("进程状态", true, format = FormatType.PROCESS_STATUS)
+        @Column("进程状态", true, format = FormatType.PROCESS_STATUS,sort = true)
         @Volatile
         override var status: ProcessStatus = ProcessStatus.CREATE,
         @Column("启动时间", true, format = FormatType.MINUTES_SECONDS)

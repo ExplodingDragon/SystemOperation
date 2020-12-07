@@ -51,11 +51,11 @@
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin></JFXComboBox>
-                  <Label text="内存算法:" GridPane.rowIndex="1">
+                  <Label opacity="0.0" text="内存算法:" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin></Label>
-                  <JFXComboBox fx:id="memory" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <JFXComboBox fx:id="memory" disable="true" maxWidth="1.7976931348623157E308" opacity="0.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin></JFXComboBox>

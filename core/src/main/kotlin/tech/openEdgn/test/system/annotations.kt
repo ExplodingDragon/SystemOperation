@@ -12,7 +12,8 @@ package tech.openEdgn.test.system
 annotation class Column(
         val name: String,
         val always: Boolean = true,
-        val format: FormatType = FormatType.STRING
+        val format: FormatType = FormatType.STRING,
+        val sort:Boolean = false
 )
 
 enum class FormatType(val formatImpl: DataFormat<out Any>) {
