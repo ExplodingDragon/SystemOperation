@@ -45,10 +45,10 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
     private lateinit var runTimeLabel: Label
 
     @FXML
-    private lateinit var memorySizeProgressBar: JFXProgressBar
+    private lateinit var memorySizeProgressBar: ProgressBar
 
     @FXML
-    private lateinit var cpuSizeProgressBar: JFXProgressBar
+    private lateinit var cpuSizeProgressBar: ProgressBar
 
     @FXML
     private lateinit var memoryInfoLabel: Label
@@ -276,7 +276,6 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
                     val value = call.value
                     SimpleObjectProperty(column.format.formatImpl.formatStr(value))
                 }
-//                tableColumn.isSortable = false
                 columns.add(tableColumn)
             }
         }
