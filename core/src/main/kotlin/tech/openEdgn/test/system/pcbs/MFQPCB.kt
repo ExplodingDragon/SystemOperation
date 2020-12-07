@@ -5,16 +5,17 @@ import tech.openEdgn.test.system.FormatType
 import tech.openEdgn.test.system.PCB
 import tech.openEdgn.test.system.ProcessStatus
 
-/**
- *
- *
- * @constructor
- */
-class HRRNPCB(
+class MFQPCB(
         @Column("PID", false)
         override var pid: Long = 0,
         @Column("名称", true)
         override var name: String,
+        @Column("分片已使用时间", true, format = FormatType.STRING)
+        @Volatile
+        var usedSpitTime: Long = 0,
+        @Column("队列位置", false)
+        @Volatile
+        var lineId: Long = 0,
         @Column("进程状态", true, format = FormatType.PROCESS_STATUS)
         @Volatile
         override var status: ProcessStatus = ProcessStatus.CREATE,
@@ -22,15 +23,9 @@ class HRRNPCB(
         override val startTime: Long,
         @Column("需要时间", true, format = FormatType.MINUTES_SECONDS)
         override val needTime: Long,
-        @Volatile
-        @Column("响应比", true, format = FormatType.DOUBLE)
-        var responseRatio: Double = 0.0,
         @Column("已用CPU时间", false, format = FormatType.MINUTES_SECONDS)
         @Volatile
         override var usedCpuTime: Long = 0,
-        @Column("等待时间", false, format = FormatType.MINUTES_SECONDS)
-        @Volatile
-        var waitTime: Long = 0,
         @Column("内存首地址", false)
         @Volatile
         override var memoryOffset: Int = 0,

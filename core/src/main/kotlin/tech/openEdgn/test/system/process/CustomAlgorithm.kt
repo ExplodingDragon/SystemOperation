@@ -14,7 +14,11 @@ abstract class CustomAlgorithm<T : PCB>(memoryAlgorithm: IMemoryAlgorithm, manag
      *  清空就绪队列下的非就绪进程
      */
     protected fun clearUnReadyProcess() {
-        readyProcess.removeIf {
+        clearUnReadyProcess(readyProcess)
+    }
+
+    private fun clearUnReadyProcess(readyProcesses: MutableList<T>) {
+        readyProcesses.removeIf {
             it.status != ProcessStatus.RUN_READY &&
                     it.status != ProcessStatus.RUN
         }
@@ -38,7 +42,7 @@ abstract class CustomAlgorithm<T : PCB>(memoryAlgorithm: IMemoryAlgorithm, manag
      */
     protected fun removeFinishedProcess() {
         startedProcess
-                .filter { it.needTime - 1 <= it.usedCpuTime }
+                .filter { isFinished(it) }
                 .forEach {
                     readyProcess.remove(it)
                     finishProcess(it)

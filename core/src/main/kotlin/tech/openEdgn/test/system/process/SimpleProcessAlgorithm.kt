@@ -26,6 +26,8 @@ abstract class SimpleProcessAlgorithm<T : PCB>(
         }
     }
 
+    fun isFinished(process: T):Boolean  = process.needTime - 1 <= process.usedCpuTime
+
 
     /**
      * 正在运行的进程

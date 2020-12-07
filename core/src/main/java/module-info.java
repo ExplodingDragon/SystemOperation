@@ -4,8 +4,8 @@ module test.system {
     requires javafx.fxml;
     requires kotlin.stdlib;
     requires kotlin.reflect;
-    requires logger.console;
-    requires core;
+    requires logger4k.console;
+    requires logger4k.core;
     requires fx.ui.manager;
     requires com.jfoenix;
     requires javafx.graphics;
