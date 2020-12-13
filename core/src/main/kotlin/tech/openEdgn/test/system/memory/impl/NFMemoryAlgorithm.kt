@@ -59,7 +59,6 @@ class NFMemoryAlgorithm : IMemoryAlgorithm() {
     }
 
     private fun searchWithIndex(i: Int, process: PCB): Boolean {
-
         for ((index, memoryBlock) in list.withIndex()) {
             if (index < i) {
                 continue

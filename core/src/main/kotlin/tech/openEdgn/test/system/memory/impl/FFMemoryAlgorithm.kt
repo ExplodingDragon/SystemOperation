@@ -5,13 +5,13 @@ import tech.openEdgn.test.system.memory.IMemoryAlgorithm
 import java.util.*
 
 class FFMemoryAlgorithm : IMemoryAlgorithm() {
-
     private val list = LinkedList<MemoryBlock>()
 
     init {
         list.add(MemoryBlock(0, 0, memorySize))
     }
 
+    @Suppress("DuplicatedCode")
     @Synchronized
     override fun finishProcess(process: PCB) {
         val item = list.first { it.pid == process.pid }
@@ -46,6 +46,7 @@ class FFMemoryAlgorithm : IMemoryAlgorithm() {
         }
 
 
+    @Suppress("DuplicatedCode")
     @Synchronized
     override fun tryBootProcess(process: PCB): Boolean {
         val needMemory = process.needMemory
