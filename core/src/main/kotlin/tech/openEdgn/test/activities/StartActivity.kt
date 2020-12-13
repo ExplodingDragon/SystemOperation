@@ -9,8 +9,10 @@ import tech.openEdgn.test.system.memory.IMemoryAlgorithm
 import tech.openEdgn.test.system.info.MemoryAlgorithmInfo
 import tech.openEdgn.test.system.process.BaseProcessAlgorithm
 import tech.openEdgn.test.system.info.ProcessAlgorithmInfo
+import tech.openEdgn.test.system.memory.impl.BFMemoryAlgorithm
 import tech.openEdgn.test.system.memory.impl.FFMemoryAlgorithm
-import tech.openEdgn.test.system.memory.impl.MaxMemoryAlgorithm
+import tech.openEdgn.test.system.memory.impl.NFMemoryAlgorithm
+import tech.openEdgn.test.system.memory.impl.WFMemoryAlgorithm
 import tech.openEdgn.test.system.process.impl.*
 
 
@@ -42,9 +44,9 @@ class StartActivity : FXMLActivity<VBox>() {
         )
         memory.items.addAll(
                 MemoryAlgorithmInfo("首次适应算法", FFMemoryAlgorithm::class),
-                MemoryAlgorithmInfo("循环适应算法", IMemoryAlgorithm::class),
-                MemoryAlgorithmInfo("最佳适应算法", IMemoryAlgorithm::class),
-                MemoryAlgorithmInfo("最坏适应算法", IMemoryAlgorithm::class)
+                MemoryAlgorithmInfo("循环适应算法", NFMemoryAlgorithm::class),
+                MemoryAlgorithmInfo("最佳适应算法", BFMemoryAlgorithm::class),
+                MemoryAlgorithmInfo("最坏适应算法", WFMemoryAlgorithm::class)
         )
         process.selectionModel.select(0)
         memory.selectionModel.select(0)
