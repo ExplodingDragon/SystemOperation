@@ -33,6 +33,7 @@ class HRRNAlgorithm(memoryAlgorithm: IMemoryAlgorithm, manager: ISystemManager) 
             process.first().run {
                 usedCpuTime++
                 responseRatio = ((waitTime + needTime).toDouble() / needTime.toDouble())
+
             }
         }
         startedProcess.forEach {

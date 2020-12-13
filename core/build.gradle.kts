@@ -30,15 +30,12 @@ tasks.register("archive", Zip::class) {
 dependencies {
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib"))
-    implementation("com.github.OpenEdgn:FXUIManager:1614cec512"){
+    implementation("com.github.OpenEdgn:FXUIManager:1a8e067a2d"){
         exclude("com.github.OpenEdgn.Logger4K","core")
     }
 
-//    implementation("com.github.openEDGN.FXUIManager:manager:1.0"){
-//        exclude("com.github.OpenEdgn.Logger4K","core")
-//    }
-    implementation("com.github.OpenEdgn.Logger4K:core:0cda6f05f7")
-    implementation("com.github.OpenEdgn.Logger4K:logger-console:0cda6f05f7")
+    implementation("com.github.OpenEdgn.Logger4K:core:1.1.0")
+    implementation("com.github.OpenEdgn.Logger4K:logger-console:1.1.0")
     implementation("com.jfoenix:jfoenix:9.0.10")
     implementation("com.google.code.gson:gson:2.8.5")
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
@@ -82,5 +79,6 @@ jlink {
         name = "SystemOperation"
     }
     imageZip.set(project.file("${project.buildDir}/release/SystemOperation-release-$version.zip"))
+
 }
 

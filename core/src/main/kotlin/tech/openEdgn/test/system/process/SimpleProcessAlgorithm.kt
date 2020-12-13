@@ -73,12 +73,14 @@ abstract class SimpleProcessAlgorithm<T : PCB>(
 
     fun tryBootProcess(process: T): Boolean {
         synchronized(process) {
+            process.pid = pid + 1
             return if (memoryAlgorithm.tryBootProcess(process)) {
                 process.pid = createPid
                 process.status = ProcessStatus.RUN_READY
                 logger.info("进程 {} 已就绪.", process.name)
                 true
             } else {
+                process.pid = 0
                 false
             }
         }

@@ -25,6 +25,8 @@ class SystemManager(processImpl: Class<out BaseProcessAlgorithm<out PCB>>, memor
                 ?.call(memoryAlgorithm, this) ?: throw RuntimeException("Error")
     }
 
+
+
     override val waitProcessSize: Int
         get() {
             return allProcess.filter {
@@ -67,16 +69,15 @@ class SystemManager(processImpl: Class<out BaseProcessAlgorithm<out PCB>>, memor
         get() = processAlgorithm.displayClass
     private val timer = Timer()
 
-    override fun run() {
-        processAlgorithm.runClockCycle()
-
-        clockCycleTime += 1
-    }
-
     override fun addRandomProcess() {
         threadPool.submit {
             processAlgorithm.addRandomProcess()
         }
+    }
+
+    override fun run() {
+        processAlgorithm.runClockCycle()
+        clockCycleTime += 1
     }
 
     init {

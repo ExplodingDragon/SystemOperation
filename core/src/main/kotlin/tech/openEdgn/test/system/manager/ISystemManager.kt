@@ -16,6 +16,7 @@ interface ISystemManager {
      */
     fun sendAction(pid:Long,action: ProcessAction)
 
+
     /**
      * 阻塞进程数目
      */

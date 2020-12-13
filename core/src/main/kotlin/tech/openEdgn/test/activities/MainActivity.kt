@@ -9,8 +9,11 @@ import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.layout.HBox
+import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import javafx.util.Callback
+import tech.openEdgn.test.component.MemoryProcessBar
 import tech.openEdgn.test.system.Column
 import tech.openEdgn.test.system.PCB
 import tech.openEdgn.test.system.ProcessStatus
@@ -33,6 +36,9 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
 
     @FXML
     private lateinit var memoryAlgorithmLabel: Label
+
+    @FXML
+    private lateinit var memoryHBox: HBox
 
     @FXML
     private lateinit var cpuUsageLabel: Label
@@ -77,6 +83,17 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
     private lateinit var selectProcessIdLabel: Label
 
     @FXML
+    private lateinit var memoryBlockSizeLabel: Label
+    @FXML
+    private lateinit var memoryNameLabel: Label
+
+    @FXML
+    private lateinit var memoryPidLabel: Label
+
+
+
+
+    @FXML
     private lateinit var selectProcessNameLabel: Label
 
     @FXML
@@ -88,6 +105,8 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
     @Volatile
     private var chooseStatus = ProcessStatus.ALL
 
+    private val memoryProcessBar by lazy { MemoryProcessBar(manager.memorySize.toLong()) }
+
 
     private lateinit var timer: Timer
 
@@ -95,17 +114,20 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
 
     private val manager: ISystemManager by lazy {
         SystemManager(
-                intent.getExtra(BaseProcessAlgorithm::class.simpleName!!, BaseProcessAlgorithm::class.java),
-                intent.getExtra(IMemoryAlgorithm::class.simpleName!!, IMemoryAlgorithm::class.java),
+            intent.getExtra(BaseProcessAlgorithm::class.simpleName!!, BaseProcessAlgorithm::class.java),
+            intent.getExtra(IMemoryAlgorithm::class.simpleName!!, IMemoryAlgorithm::class.java),
         )
     }
 
     override fun onCreate() {
+        memoryHBox.children.add(memoryProcessBar)
+        HBox.setHgrow(memoryProcessBar, Priority.ALWAYS)
+        memoryProcessBar.maxHeight = Double.MAX_VALUE
         table.items = processList
         memoryAlgorithmLabel.text =
-                intent.getExtra(IMemoryAlgorithm::class.qualifiedName!!, "UNKNOWN Algorithm")
+            intent.getExtra(IMemoryAlgorithm::class.qualifiedName!!, "UNKNOWN Algorithm")
         processAlgorithmLabel.text =
-                intent.getExtra(BaseProcessAlgorithm::class.qualifiedName!!, "UNKNOWN Algorithm")
+            intent.getExtra(BaseProcessAlgorithm::class.qualifiedName!!, "UNKNOWN Algorithm")
         window.title = "进程模拟 - ${processAlgorithmLabel.text} - ${memoryAlgorithmLabel.text}"
         initTableUI(manager.displayClass)
         val callback = Callback<ListView<ProcessStatus>, ListCell<ProcessStatus>> {
@@ -125,6 +147,12 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
         spitProcessComboBox.items = FXCollections.observableArrayList(*ProcessStatus.values())
         spitProcessComboBox.selectionModel.select(0)
         chooseAlgorithm()
+
+        memoryProcessBar.memoryMovedListener = {
+            memoryPidLabel.text = it.pid.toString()
+            memoryBlockSizeLabel.text = it.needMemory.toString()
+            memoryNameLabel.text = it.name
+        }
     }
 
     override fun onStart() {
@@ -156,6 +184,11 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
         finishProcessLabel.text = manager.finishProcessSize.toString()
         chooseAlgorithm()
         chooseDetails()
+        chooseMemory()
+    }
+
+    private fun chooseMemory() {
+        memoryProcessBar.update(manager.allProcess)
     }
 
     @Volatile
@@ -213,8 +246,10 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
     @FXML
     fun addRandomAction() {
         manager.addRandomProcess()
-        logger.info("切换进程列表为: {},当前列个数为 {}.",
-                spitProcessComboBox.selectionModel.selectedItem.type, table.items.size)
+        logger.info(
+            "切换进程列表为: {},当前列个数为 {}.",
+            spitProcessComboBox.selectionModel.selectedItem.type, table.items.size
+        )
 
     }
 
@@ -269,11 +304,11 @@ class MainActivity : FXMLActivity<VBox>(), Runnable {
             } else if (o2.status == ProcessStatus.CREATE && o1.status != ProcessStatus.CREATE) {
                 -1
             } else {
-                val toInt = (o2.pid - o1.pid).toInt()
+                val toInt = (o1.pid - o2.pid).toInt()
                 if (toInt != 0) {
                     toInt
                 } else {
-                    (o2.startTime - o1.startTime).toInt()
+                    (o1.startTime - o2.startTime).toInt()
                 }
             }
         }

@@ -1,4 +1,4 @@
 package css;
 
-public class Empty {
+class Empty {
 }

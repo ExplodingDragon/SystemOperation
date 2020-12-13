@@ -9,7 +9,7 @@ import tech.openEdgn.test.system.memory.IMemoryAlgorithm
 import tech.openEdgn.test.system.info.MemoryAlgorithmInfo
 import tech.openEdgn.test.system.process.BaseProcessAlgorithm
 import tech.openEdgn.test.system.info.ProcessAlgorithmInfo
-import tech.openEdgn.test.system.memory.impl.EmptyMemoryAlgorithm
+import tech.openEdgn.test.system.memory.impl.FFMemoryAlgorithm
 import tech.openEdgn.test.system.memory.impl.MaxMemoryAlgorithm
 import tech.openEdgn.test.system.process.impl.*
 
@@ -41,8 +41,7 @@ class StartActivity : FXMLActivity<VBox>() {
                 ProcessAlgorithmInfo("多级反馈队列调度算法", MFQAlgorithm::class)
         )
         memory.items.addAll(
-                MemoryAlgorithmInfo("禁用内存调度", EmptyMemoryAlgorithm::class),
-                MemoryAlgorithmInfo("首次适应算法", MaxMemoryAlgorithm::class),
+                MemoryAlgorithmInfo("首次适应算法", FFMemoryAlgorithm::class),
                 MemoryAlgorithmInfo("循环适应算法", IMemoryAlgorithm::class),
                 MemoryAlgorithmInfo("最佳适应算法", IMemoryAlgorithm::class),
                 MemoryAlgorithmInfo("最坏适应算法", IMemoryAlgorithm::class)

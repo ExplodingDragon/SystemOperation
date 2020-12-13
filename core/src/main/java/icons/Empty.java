@@ -1,4 +1,4 @@
 package icons;
 
-public class Empty {
+class Empty {
 }

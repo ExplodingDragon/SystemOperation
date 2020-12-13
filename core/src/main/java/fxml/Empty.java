@@ -1,4 +1,4 @@
 package fxml;
 
-public class Empty {
+class Empty {
 }

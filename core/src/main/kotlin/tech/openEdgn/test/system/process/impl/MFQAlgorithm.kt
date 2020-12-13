@@ -11,8 +11,7 @@ import kotlin.math.abs
 class MFQAlgorithm(memoryAlgorithm: IMemoryAlgorithm, manager: ISystemManager) :
         SimpleProcessAlgorithm<MFQPCB>(memoryAlgorithm, manager) {
 
-    //    private val readyOneProcess = LinkedList<>
-    private val readyProcesses = listOf<Processes>(
+    private val readyProcesses = listOf(
             Processes("第一队列", 3),
             Processes("第二队列", 6),
             Processes("第三队列", 10)
